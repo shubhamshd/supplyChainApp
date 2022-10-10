@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/supplyChainApp/static/css/main.073c9b0a.css",
+    "main.js": "/supplyChainApp/static/js/main.a7663844.js",
+    "static/js/787.c4e7f8f9.chunk.js": "/supplyChainApp/static/js/787.c4e7f8f9.chunk.js",
+    "index.html": "/supplyChainApp/index.html",
+    "main.073c9b0a.css.map": "/supplyChainApp/static/css/main.073c9b0a.css.map",
+    "main.a7663844.js.map": "/supplyChainApp/static/js/main.a7663844.js.map",
+    "787.c4e7f8f9.chunk.js.map": "/supplyChainApp/static/js/787.c4e7f8f9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.a7663844.js"
+  ]
+}
