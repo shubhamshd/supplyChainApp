@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import getWeb3 from './web3.js';
-import './App.css';import './App.css';
+import './App.css';
 import contractJson from './contractAbi.json'
 import Participant from "./Participant.js";
 import Product from "./Product.js";

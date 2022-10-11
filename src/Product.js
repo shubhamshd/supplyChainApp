@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Form.css";
 
 export default function Product ({ owner, product, rowsData, provenance, handleChange, addProduct, handleOwnerChange, changeOwnership, getProvenance}){
     // console.log(rowsData);
@@ -20,42 +21,44 @@ export default function Product ({ owner, product, rowsData, provenance, handleC
                 <h3> Change Product Ownership </h3>
             </button>
             {changeOwnershipInput ? 
-                <form onSubmit={changeOwnership}>
-                    <label>
-                    Current Owner:
-                    <input 
-                        type = "number"
-                        name="_user1Id"
-                        value={owner._user1Id}
-                        onChange={handleOwnerChange}
-                    />
-                    </label>
+                <div className="form-box">
+                    <form onSubmit={changeOwnership}>
+                        <label>
+                        <input 
+                            type = "number"
+                            placeholder="Current Owner"
+                            name="_user1Id"
+                            value={owner._user1Id}
+                            onChange={handleOwnerChange}
+                        />
+                        </label>
 
-                    <label>
-                    New Owner:
-                    <input 
-                        type = "number"
-                        name="_user2Id"
-                        value={owner._user2Id}
-                        onChange={handleOwnerChange}
-                    />
-                    </label>
+                        <label>
+                        <input 
+                            type = "number"
+                            placeholder="New Owner"
+                            name="_user2Id"
+                            value={owner._user2Id}
+                            onChange={handleOwnerChange}
+                        />
+                        </label>
 
-                    <label>
-                    Product Id:
-                    <input 
-                        type = "number"
-                        name="_prodId"
-                        value={owner._prodId}
-                        onChange={handleOwnerChange}
-                    />
-                    </label>
+                        <label>
+                        <input 
+                            type = "number"
+                            placeholder="Product Id"
+                            name="_prodId"
+                            value={owner._prodId}
+                            onChange={handleOwnerChange}
+                        />
+                        </label>
 
-                    <button  
-                        type="submit"> 
-                        Submit 
-                    </button>
-                </form>
+                        <button  
+                            type="submit"> 
+                            Submit 
+                        </button>
+                    </form>
+                </div>
             : null}
             <hr/>
 
@@ -64,61 +67,63 @@ export default function Product ({ owner, product, rowsData, provenance, handleC
                 <h3> Want to add a new Product? </h3>
             </button>
             {showHideAddProductInput ? 
-                <form onSubmit={addProduct}>
-                    <label>
-                    Owner Id:
-                    <input 
-                        type = "number"
-                        name="_ownerId"
-                        value={product._ownerId}
-                        onChange={handleChange}
-                    />
-                    </label>
+                <div className="form-box">
+                    <form onSubmit={addProduct}>
+                        <label>
+                        <input 
+                            type = "number"
+                            placeholder = "Owner Id"
+                            name="_ownerId"
+                            value={product._ownerId}
+                            onChange={handleChange}
+                        />
+                        </label>
 
-                    <label>
-                    Model Number:
-                    <input 
-                        type = "text"
-                        name="_modelNumber"
-                        value={product._modelNumber}
-                        onChange={handleChange}
-                    />
-                    </label>
+                        <label>
+                        <input 
+                            type = "text"
+                            placeholder = "Model Number"
+                            name="_modelNumber"
+                            value={product._modelNumber}
+                            onChange={handleChange}
+                        />
+                        </label>
 
-                    <label>
-                    Part Number:
-                    <input 
-                        type = "text"
-                        name="_partNumber"
-                        value={product._partNumber}
-                        onChange={handleChange}
-                    />
-                    </label>
+                        <label>
+                        <input 
+                            type = "text"
+                            placeholder = "Part Number"
+                            name="_partNumber"
+                            value={product._partNumber}
+                            onChange={handleChange}
+                        />
+                        </label>
 
-                    <label>
-                    Serial Number:
-                    <input 
-                        type = "text"
-                        name="_serialNumber"
-                        value={product._serialNumber}
-                        onChange={handleChange}
-                    />
-                    </label>
+                        <label>
+                        <input 
+                            type = "text"
+                            placeholder = "Serial Number"
+                            name="_serialNumber"
+                            value={product._serialNumber}
+                            onChange={handleChange}
+                        />
+                        </label>
 
-                    <label>
-                    Product Cost:
-                    <input 
-                        type = "number"
-                        name="_productCost"
-                        value={product._productCost}
-                        onChange={handleChange}
-                    />
-                    </label>
-                    <button  
-                    type="submit"> 
-                    Submit 
-                    </button>
-                </form>
+                        <label>
+                        <input 
+                            type = "number"
+                            placeholder = "Product Cost"
+                            name="_productCost"
+                            value={product._productCost}
+                            onChange={handleChange}
+                        />
+                        </label>
+                        <button  
+                        type="submit"> 
+                        Submit 
+                        </button>
+                    </form>
+                </div>
             : null}
             <hr/>
 
