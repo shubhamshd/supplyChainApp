@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/supplyChainApp/static/css/main.92203558.css",
-    "main.js": "/supplyChainApp/static/js/main.31379378.js",
+    "main.css": "/supplyChainApp/static/css/main.a2d3afb0.css",
+    "main.js": "/supplyChainApp/static/js/main.a56f75cc.js",
     "static/js/787.c4e7f8f9.chunk.js": "/supplyChainApp/static/js/787.c4e7f8f9.chunk.js",
     "index.html": "/supplyChainApp/index.html",
-    "main.92203558.css.map": "/supplyChainApp/static/css/main.92203558.css.map",
-    "main.31379378.js.map": "/supplyChainApp/static/js/main.31379378.js.map",
+    "main.a2d3afb0.css.map": "/supplyChainApp/static/css/main.a2d3afb0.css.map",
+    "main.a56f75cc.js.map": "/supplyChainApp/static/js/main.a56f75cc.js.map",
     "787.c4e7f8f9.chunk.js.map": "/supplyChainApp/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.92203558.css",
-    "static/js/main.31379378.js"
+    "static/css/main.a2d3afb0.css",
+    "static/js/main.a56f75cc.js"
   ]
 }
