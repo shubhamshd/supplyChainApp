@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Form.css";
+import "../styles/Form.css";
 
 export default function Participant({participant, handleParticipantChange, getParticipant, addParticipant}){
     var tableHead = ['Participant Name', 'Participant Address', 'Participant Type'];

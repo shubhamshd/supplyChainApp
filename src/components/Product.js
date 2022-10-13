@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Form.css";
+import "../styles/Form.css";
 
 export default function Product ({ owner, product, rowsData, provenance, handleChange, addProduct, handleOwnerChange, changeOwnership, getProvenance}){
     // console.log(rowsData);

@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import getWeb3 from './web3.js';
-import './App.css';
-import contractJson from './contractAbi.json'
+import getWeb3 from '../web3.js';
+import '../styles/App.css';
+import contractJson from '../contractAbi.json'
 import Participant from "./Participant.js";
 import Product from "./Product.js";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./Navbar"
+
 
 function App() {
   const [rowsData, setRowsData] = useState([]);
@@ -169,7 +172,34 @@ function App() {
       {/* <header className="App-header">
         <h1> Welcome to Supply Chain DApp </h1>
       </header> */}
-      <Participant
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path='/supplyChainApp/participants'  element={
+            <Participant  
+              participant={participant}
+              handleParticipantChange={handleParticipantChange}
+              getParticipant={getParticipant}
+              addParticipant={addParticipant}
+            />
+          }></Route>
+          <Route path='/supplyChainApp/products' element={
+            <Product
+              owner={owner}
+              supplyChain={supplyChain}
+              product={product}
+              rowsData={rowsData} 
+              provenance={provenance}
+              handleOwnerChange={handleOwnerChange}
+              changeOwnership={changeOwnership}
+              handleChange={handleChange} 
+              addProduct={addProduct}
+              getProvenance={getProvenance}
+            />
+          }></Route>
+        </Routes>
+      </Router>
+      {/* <Participant
         participant={participant}
         handleParticipantChange={handleParticipantChange}
         getParticipant={getParticipant}
@@ -187,7 +217,7 @@ function App() {
         handleChange={handleChange} 
         addProduct={addProduct}
         getProvenance={getProvenance}
-      />
+      /> */}
     </div>
   );
 }
