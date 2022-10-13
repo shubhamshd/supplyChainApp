@@ -5,7 +5,7 @@ import contractJson from '../contractAbi.json'
 import Participant from "./Participant.js";
 import Product from "./Product.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./Navbar"
+import MyNavbar from "./Navbar.js";
 
 
 function App() {
@@ -173,7 +173,7 @@ function App() {
         <h1> Welcome to Supply Chain DApp </h1>
       </header> */}
       <Router>
-        <Navbar />
+        <MyNavbar />
         <Routes>
           <Route path='/supplyChainApp/participants'  element={
             <Participant  
