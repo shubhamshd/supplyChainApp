@@ -2,10 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import getWeb3 from '../web3.js';
 import '../styles/App.css';
 import contractJson from '../contractAbi.json'
-import Participant from "./Participant.js";
-import Product from "./Product.js";
+// import Participant from "./Participant.js";
+import GetParticipant from "./GetParticipant"
+import AddParticipant from "./AddParticipant"
+// import Product from "./Product.js";
+import Products from "./Products.js";
+import ChangeProductOwnership from "./ChangeProductOwnership";
+import AddProduct from "./AddProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MyNavbar from "./Navbar.js";
+import Home from "../pages/Home.js";
+import About from "../pages/About"
 
 
 function App() {
@@ -175,28 +182,43 @@ function App() {
       <Router>
         <MyNavbar />
         <Routes>
-          <Route path='/supplyChainApp/participants'  element={
-            <Participant  
+          <Route path='/supplyChainApp/'  element={<Home />}></Route>
+          <Route path='/supplyChainApp/getParticipant'  element={
+            <GetParticipant  
               participant={participant}
               handleParticipantChange={handleParticipantChange}
               getParticipant={getParticipant}
+            />
+          }></Route>
+          <Route path='/supplyChainApp/addParticipant'  element={
+            <AddParticipant  
+              participant={participant}
+              handleParticipantChange={handleParticipantChange}
               addParticipant={addParticipant}
             />
           }></Route>
           <Route path='/supplyChainApp/products' element={
-            <Product
-              owner={owner}
-              supplyChain={supplyChain}
-              product={product}
+            <Products
               rowsData={rowsData} 
               provenance={provenance}
-              handleOwnerChange={handleOwnerChange}
-              changeOwnership={changeOwnership}
-              handleChange={handleChange} 
-              addProduct={addProduct}
               getProvenance={getProvenance}
             />
           }></Route>
+          <Route path='/supplyChainApp/changeProductOwnership' element={
+            <ChangeProductOwnership
+              owner={owner}
+              handleOwnerChange={handleOwnerChange}
+              changeOwnership={changeOwnership}
+            />
+          }></Route>
+          <Route path='/supplyChainApp/addProduct' element={
+            <AddProduct
+              product={product}
+              handleChange={handleChange} 
+              addProduct={addProduct}
+            />
+          }></Route>
+          <Route path='/supplyChainApp/about'  element={<About />}></Route>
         </Routes>
       </Router>
       {/* <Participant
