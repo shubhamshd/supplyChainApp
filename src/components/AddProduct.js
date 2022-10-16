@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../styles/Form.css";
 
 export default function Product ({ product, handleChange, addProduct}){

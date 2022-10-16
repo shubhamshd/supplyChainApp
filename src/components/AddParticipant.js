@@ -1,9 +1,6 @@
-import { useState } from "react";
 import "../styles/Form.css";
 
 export default function AddParticipant({participant, handleParticipantChange, addParticipant}){
-    const [showHideAddParticipantInput, setShowHideAddParticipantInput] = useState(false);
-
     return(
         <div>
             {/* <button onClick={handleAddParticipantVisibility}>

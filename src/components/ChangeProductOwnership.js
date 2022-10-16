@@ -1,7 +1,6 @@
-import { useState } from "react";
 import "../styles/Form.css";
 
-export default function Product ({ owner, handleOwnerChange, changeOwnership}){
+export default function ChangeProductOwnership ({ owner, handleOwnerChange, changeOwnership}){
     // console.log(rowsData);
 
     return(

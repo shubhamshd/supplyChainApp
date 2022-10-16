@@ -10,6 +10,7 @@ import Products from "./Products.js";
 import ChangeProductOwnership from "./ChangeProductOwnership";
 import AddProduct from "./AddProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import MyNavbar from "./Navbar.js";
 import Home from "../pages/Home.js";
 import About from "../pages/About"
@@ -25,6 +26,8 @@ function App() {
   const [supplyChain, setSupplychain] = useState();
   const [provenance, setProvenance] = useState([]);
   const firstMount = useRef(true);
+
+  const history = createBrowserHistory();
 
   useEffect(() => {
     const initWeb3 = async() => {
@@ -179,7 +182,7 @@ function App() {
       {/* <header className="App-header">
         <h1> Welcome to Supply Chain DApp </h1>
       </header> */}
-      <Router>
+      <Router basename="/">
         <MyNavbar />
         <Routes>
           <Route path='/supplyChainApp/'  element={<Home />}></Route>

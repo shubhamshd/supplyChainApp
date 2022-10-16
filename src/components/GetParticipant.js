@@ -32,7 +32,6 @@ export default function GetParticipant({participant, handleParticipantChange, ge
                     </button>
                 </form>
             </div>
-            <hr/>
             {showHideParticipantTable ? 
                 <table className="table table-bordered table-hover">
                     <thead>
@@ -49,7 +48,6 @@ export default function GetParticipant({participant, handleParticipantChange, ge
                     </tbody>
                 </table>
             : null}
-            <hr/>
         </div>
     );
 }
