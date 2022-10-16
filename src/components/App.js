@@ -185,43 +185,43 @@ function App() {
       <Router basename="/">
         <MyNavbar />
         <Routes>
-          <Route path='/supplyChainApp/'  element={<Home />}></Route>
-          <Route path='/supplyChainApp/getParticipant'  element={
+          <Route path='/'  element={<Home />}></Route>
+          <Route path='/getParticipant'  element={
             <GetParticipant  
               participant={participant}
               handleParticipantChange={handleParticipantChange}
               getParticipant={getParticipant}
             />
           }></Route>
-          <Route path='/supplyChainApp/addParticipant'  element={
+          <Route path='/addParticipant'  element={
             <AddParticipant  
               participant={participant}
               handleParticipantChange={handleParticipantChange}
               addParticipant={addParticipant}
             />
           }></Route>
-          <Route path='/supplyChainApp/products' element={
+          <Route path='/products' element={
             <Products
               rowsData={rowsData} 
               provenance={provenance}
               getProvenance={getProvenance}
             />
           }></Route>
-          <Route path='/supplyChainApp/changeProductOwnership' element={
+          <Route path='/changeProductOwnership' element={
             <ChangeProductOwnership
               owner={owner}
               handleOwnerChange={handleOwnerChange}
               changeOwnership={changeOwnership}
             />
           }></Route>
-          <Route path='/supplyChainApp/addProduct' element={
+          <Route path='/addProduct' element={
             <AddProduct
               product={product}
               handleChange={handleChange} 
               addProduct={addProduct}
             />
           }></Route>
-          <Route path='/supplyChainApp/about'  element={<About />}></Route>
+          <Route path='/about'  element={<About />}></Route>
         </Routes>
       </Router>
       {/* <Participant
