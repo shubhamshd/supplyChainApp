@@ -5,6 +5,7 @@ export default function Products ({ rowsData, provenance, getProvenance}){
     // console.log(rowsData);
     var tableHead = ['Product Id', 'Model Number', 'Part Number', 'Serial Number', 'Current Owner', 'Cost', 'Manufacturing Timestamp', ''];
     var provenanceTableHead = ['Owner Id', 'Owner Address', 'Ownership obtained at'];
+    const [productId, setProductId] = useState('');
 
     const [provenanceTable, setProvenanceTable] = useState(false);
 
@@ -14,6 +15,8 @@ export default function Products ({ rowsData, provenance, getProvenance}){
 
     const preFetch = (e) => {
         getProvenance(e);
+        console.log(e.target.value);
+        setProductId(e.target.value);
         handleProvenanceVisibility();
     }
 
@@ -41,10 +44,12 @@ export default function Products ({ rowsData, provenance, getProvenance}){
                 ))}
                 </tbody>
             </table>
+            <hr/>
             <div>
                 {provenance && provenanceTable ?
                     <div>
-                        <h1>Provenance details: </h1>
+                        <h3>Provenance details for Product id : "{productId}"</h3>
+                        <br></br>
                         <table className="table table-bordered table-hover">
                             <thead>
                             <tr>
