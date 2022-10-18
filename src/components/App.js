@@ -72,6 +72,14 @@ function App() {
     }
   }, [account]);
 
+  window.ethereum.on('accountsChanged', function (accounts) {
+    console.log('accountsChanges', accounts);
+    const initAccount = async() => {
+      const accounts = await web3.eth.getAccounts();
+      setAccount(accounts[0]);
+    }
+    initAccount();
+  })
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -126,7 +134,7 @@ function App() {
   const addParticipant = async(event) => {
     event.preventDefault();
 
-    supplyChain.methods.addParticipant(participant._name, participant._pass, participant._pAdd, participant._pType)
+    await supplyChain.methods.addParticipant(participant._name, participant._pass, participant._pAdd, participant._pType)
     .send({ from : account }, (err, transactionHash) => {
       console.log(err, transactionHash);
     });
@@ -135,7 +143,7 @@ function App() {
   const getParticipant = async (event) => {
     event.preventDefault();
 
-    supplyChain.methods.getParticipant(participant._userId)
+    await supplyChain.methods.getParticipant(participant._userId)
     .call({ from : account }, (err, transactionHash) => {
       setParticipant(values => ({...values, _name: transactionHash[0], _pAdd: transactionHash[1], _pType: transactionHash[2]}))
     })
