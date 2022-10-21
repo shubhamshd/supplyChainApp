@@ -1,13 +1,18 @@
 import "../styles/Form.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function Products ({ rowsData, provenance, getProvenance}){
+export default function Products ({ rowsData, getProduct, provenance, getProvenance}){
     // console.log(rowsData);
     var tableHead = ['Product Id', 'Model Number', 'Part Number', 'Serial Number', 'Current Owner', 'Cost', 'Manufacturing Timestamp', ''];
     var provenanceTableHead = ['Owner Id', 'Owner Address', 'Ownership obtained at'];
     const [productId, setProductId] = useState('');
 
     const [provenanceTable, setProvenanceTable] = useState(false);
+    
+    useEffect(() => {      
+        getProduct();
+        console.log('calling getProduct');
+    }, []);
 
     const handleProvenanceVisibility = () => {
         setProvenanceTable(!provenanceTable);
@@ -26,7 +31,7 @@ export default function Products ({ rowsData, provenance, getProvenance}){
             <table className="table table-bordered table-hover">
                 <thead>
                 <tr>
-                    {tableHead.map(head => <th className="text-center">{head}</th>)}  
+                    {tableHead.map((head, idx) => <th key={idx} className="text-center">{head}</th>)}  
                 </tr>
                 </thead>
                 <tbody>

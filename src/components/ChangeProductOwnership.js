@@ -5,9 +5,6 @@ export default function ChangeProductOwnership ({ owner, handleOwnerChange, chan
 
     return(
         <div>
-            {/* Change Ownership form */}
-            {/* <button onClick={handleOnwnershipChange}>
-            </button> */}
             <h3> Change Product Ownership </h3>
             <div className="form-box">
                 <form onSubmit={changeOwnership}>

@@ -15,7 +15,7 @@ const About = () =>{
         {/* <div class="table-responsive col-md-6"> */}
           {/* <Table striped hover borderless responsive size="sm" variant="dark"> */}
           <br></br>
-          <table style={mystyle} class="table table-striped">
+          <table style={mystyle} className="table table-striped">
             <thead>
               <tr>
                 <th>Features</th>
@@ -40,7 +40,7 @@ const About = () =>{
         {/* <div class="table-responsive col-md-6"> */}
           {/* <Table striped hover borderless responsive size="sm" variant="dark"> */}
           <br></br>
-          <table style={mystyle} class="table table-striped">
+          <table style={mystyle} className="table table-striped">
             <thead>
               <tr>
                 <th>Tech Stack</th>

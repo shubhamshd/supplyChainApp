@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import getWeb3 from '../web3.js';
+import getWeb3 from '../helper/web3.js';
 import '../styles/App.css';
-import contractJson from '../contractAbi.json'
+import contractJson from '../helper/contractAbi.json'
 // import Participant from "./Participant.js";
 import GetParticipant from "./GetParticipant"
 import AddParticipant from "./AddParticipant"
@@ -10,10 +10,10 @@ import Products from "./Products.js";
 import ChangeProductOwnership from "./ChangeProductOwnership";
 import AddProduct from "./AddProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { createBrowserHistory } from "history";
 import MyNavbar from "./Navbar.js";
 import Home from "../pages/Home.js";
 import About from "../pages/About"
+
 
 
 function App() {
@@ -22,64 +22,58 @@ function App() {
   const [participant, setParticipant] = useState({});
   const [account, setAccount] = useState('');
   const [owner, setOwner] = useState(false);
-  const [web3, setWeb3] = useState();
   const [supplyChain, setSupplychain] = useState();
   const [provenance, setProvenance] = useState([]);
-  const firstMount = useRef(true);
-
-  const history = createBrowserHistory();
+  const isConnected = useRef(false);
 
   useEffect(() => {
     const initWeb3 = async() => {
+      let web3;
       await getWeb3().then((result) => {
-        let web3Instance = result;
-        setWeb3(web3Instance);
-        firstMount.current = false;
+        web3 = result;
       }); 
+      const networkId = await web3.eth.net.getId();
+      const networkData = contractJson.networks[networkId];
+      let supplyChainInstance = new web3.eth.Contract(contractJson.abi, networkData.address);
+      setSupplychain(supplyChainInstance);
+      const accounts = await web3.eth.getAccounts();
+      setAccount(accounts[0]);
     }
-    initWeb3();
+    if(isConnected.current){
+      initWeb3(); 
+    }
   }, []);
 
-  useEffect(() => {
-    if(!firstMount.current){
-      console.log(web3);
-      const initContract = async() => {
-        const networkId = await web3.eth.net.getId();
-        const networkData = contractJson.networks[networkId];
-        let supplyChainInstance = new web3.eth.Contract(contractJson.abi, networkData.address);
-        setSupplychain(supplyChainInstance);
-      }
-      initContract();
-    }
-  }, [web3]);
-
-  useEffect(() => {
-    if(!firstMount.current){
-      console.log(supplyChain);
-      const initAccount = async() => {
-        const accounts = await web3.eth.getAccounts();
-        setAccount(accounts[0]);
-      }
-      initAccount();
-    }
-  }, [supplyChain]);
-
-  useEffect(() => {
-    if(!firstMount.current){
-      console.log(account);
-      getProduct();
-      console.log('calling getProduct');
-    }
-  }, [account]);
-
+  //triggered when user changes current account in the wallet
   window.ethereum.on('accountsChanged', function (accounts) {
-    console.log('accountsChanges', accounts);
+    console.log('accountsChanged', accounts);
     const initAccount = async() => {
+      let web3;
+      await getWeb3().then((result) => {
+        web3 = result;
+      }); 
       const accounts = await web3.eth.getAccounts();
       setAccount(accounts[0]);
     }
     initAccount();
   })
+
+  //called when connect button is clicked
+  const connectWallet = async(event) => {
+    event.preventDefault();
+    console.log('inside connect function')
+    let web3;
+    await getWeb3().then((result) => {
+      web3 = result;
+    }); 
+    const networkId = await web3.eth.net.getId();
+    const networkData = contractJson.networks[networkId];
+    let supplyChainInstance = new web3.eth.Contract(contractJson.abi, networkData.address);
+    setSupplychain(supplyChainInstance);
+    const accounts = await web3.eth.getAccounts();
+    setAccount(accounts[0]);
+    isConnected.current = true;
+  }
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -187,13 +181,14 @@ function App() {
 
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <h1> Welcome to Supply Chain DApp </h1>
-      </header> */}
       <Router basename="/">
-        <MyNavbar />
+        <MyNavbar 
+          isConnected={isConnected}
+          connectWallet={connectWallet}
+        />
+        <hr />
         <Routes>
-          <Route path='/'  element={<Home />}></Route>
+          <Route path='/' element={<Home/>}></Route>
           <Route path='/getParticipant'  element={
             <GetParticipant  
               participant={participant}
@@ -211,6 +206,7 @@ function App() {
           <Route path='/products' element={
             <Products
               rowsData={rowsData} 
+              getProduct={getProduct}
               provenance={provenance}
               getProvenance={getProvenance}
             />
@@ -232,25 +228,6 @@ function App() {
           <Route path='/about'  element={<About />}></Route>
         </Routes>
       </Router>
-      {/* <Participant
-        participant={participant}
-        handleParticipantChange={handleParticipantChange}
-        getParticipant={getParticipant}
-        addParticipant={addParticipant}
-      />
-      <hr/>
-      <Product
-        owner={owner}
-        supplyChain={supplyChain}
-        product={product}
-        rowsData={rowsData} 
-        provenance={provenance}
-        handleOwnerChange={handleOwnerChange}
-        changeOwnership={changeOwnership}
-        handleChange={handleChange} 
-        addProduct={addProduct}
-        getProvenance={getProvenance}
-      /> */}
     </div>
   );
 }

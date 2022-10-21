@@ -36,7 +36,7 @@ export default function GetParticipant({participant, handleParticipantChange, ge
                 <table className="table table-bordered table-hover">
                     <thead>
                     <tr>
-                        {tableHead.map(head => <th className="text-center">{head}</th>)}  
+                        {tableHead.map((head, idx) => <th key={idx} className="text-center">{head}</th>)}  
                     </tr>
                     </thead>
                     <tbody>
