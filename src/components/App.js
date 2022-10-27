@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import getWeb3 from '../helper/web3.js';
 import '../styles/App.css';
 import contractJson from '../helper/contractAbi.json'
-// import Participant from "./Participant.js";
 import GetParticipant from "./GetParticipant"
 import AddParticipant from "./AddParticipant"
-// import Product from "./Product.js";
 import Products from "./Products.js";
 import ChangeProductOwnership from "./ChangeProductOwnership";
 import AddProduct from "./AddProduct";
@@ -13,6 +11,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MyNavbar from "./Navbar.js";
 import Home from "../pages/Home.js";
 import About from "../pages/About"
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 
 
@@ -25,6 +25,7 @@ function App() {
   const [supplyChain, setSupplychain] = useState();
   const [provenance, setProvenance] = useState([]);
   const isConnected = useRef(false);
+  const [showPopUp, setShowPopUp] = useState(false)
 
   useEffect(() => {
     const initWeb3 = async() => {
@@ -32,12 +33,17 @@ function App() {
       await getWeb3().then((result) => {
         web3 = result;
       }); 
-      const networkId = await web3.eth.net.getId();
-      const networkData = contractJson.networks[networkId];
-      let supplyChainInstance = new web3.eth.Contract(contractJson.abi, networkData.address);
-      setSupplychain(supplyChainInstance);
-      const accounts = await web3.eth.getAccounts();
-      setAccount(accounts[0]);
+      try{
+        const networkId = await web3.eth.net.getId();
+        const networkData = contractJson.networks[networkId];
+        let supplyChainInstance = new web3.eth.Contract(contractJson.abi, networkData.address);
+        setSupplychain(supplyChainInstance);
+        const accounts = await web3.eth.getAccounts();
+        setAccount(accounts[0]);
+      }
+      catch(e){
+        console.log(e, 'Error in instantiating Contract Instance/getting account')
+      }
     }
     if(isConnected.current){
       initWeb3(); 
@@ -45,18 +51,25 @@ function App() {
   }, []);
 
   //triggered when user changes current account in the wallet
-  window.ethereum.on('accountsChanged', function (accounts) {
-    console.log('accountsChanged', accounts);
-    const initAccount = async() => {
-      let web3;
-      await getWeb3().then((result) => {
-        web3 = result;
-      }); 
-      const accounts = await web3.eth.getAccounts();
-      setAccount(accounts[0]);
-    }
-    initAccount();
-  })
+  if(window.ethereum){
+    window.ethereum.on('accountsChanged', function (accounts) {
+      console.log('accountsChanged', accounts);
+      const initAccount = async() => {
+        let web3;
+        await getWeb3().then((result) => {
+          web3 = result;
+        }); 
+        try{
+          const accounts = await web3.eth.getAccounts();
+          setAccount(accounts[0]);
+        }
+        catch(e){
+          console.log(e, 'exception in getting account')
+        }
+      }
+      initAccount();
+    })
+  }
 
   //called when connect button is clicked
   const connectWallet = async(event) => {
@@ -66,13 +79,19 @@ function App() {
     await getWeb3().then((result) => {
       web3 = result;
     }); 
-    const networkId = await web3.eth.net.getId();
-    const networkData = contractJson.networks[networkId];
-    let supplyChainInstance = new web3.eth.Contract(contractJson.abi, networkData.address);
-    setSupplychain(supplyChainInstance);
-    const accounts = await web3.eth.getAccounts();
-    setAccount(accounts[0]);
-    isConnected.current = true;
+
+    try{
+      const networkId = await web3.eth.net.getId();
+      const networkData = contractJson.networks[networkId];
+      let supplyChainInstance = new web3.eth.Contract(contractJson.abi, networkData.address);
+      setSupplychain(supplyChainInstance);
+      const accounts = await web3.eth.getAccounts();
+      setAccount(accounts[0]);
+      isConnected.current = true;
+    }
+    catch(e){
+      console.log(e,'Error in instantiating Contract Instance/getting account')
+    }
   }
   const handleChange = (event) => {
     const name = event.target.name;
@@ -83,10 +102,16 @@ function App() {
   const addProduct = async(event) => {
     event.preventDefault();
 
-    await supplyChain.methods.addProduct(product._ownerId, product._modelNumber, product._partNumber, product._serialNumber, product._productCost)
-    .send({ from : account }, (err, transactionHash) => {
-      console.log(err, transactionHash);
-    });
+    try{
+      await supplyChain.methods.addProduct(product._ownerId, product._modelNumber, product._partNumber, product._serialNumber, product._productCost)
+      .send({ from : account }, (err, transactionHash) => {
+        console.log(err, transactionHash);
+      });
+      setShowPopUp(true);
+    }
+    catch(e){
+      console.log(e, 'add product exception')
+    }
     getProduct();
     console.log('calling getProduct from addProduct');
   }
@@ -94,29 +119,39 @@ function App() {
   const getProduct = async() => {
     var productCount;
 
-    await supplyChain.methods.product_id()
-    .call(function(err, res){
-      productCount = res;
-    }); 
+    try{
+      await supplyChain.methods.product_id()
+      .call(function(err, res){
+        productCount = res;
+      }); 
+    }
+    catch(e){
+      console.log(e, 'get product count exception')
+    }
 
     setRowsData([]);
 
     for (var i = 0; i < productCount; i++) {
       let product_id = i;
-      await supplyChain.methods.products(i)
-      .call(function(err, product){
-        const newRow = {
-          product_id: product_id,
-          modelNumber: product[0],
-          partNumber: product[1],
-          serialNumber: product[2],
-          productOwner: product[3],
-          cost: product[4],
-          mfgTimeStamp: product[5],
-        };
-        // console.log(newRow);
-        setRowsData(oldData => [...oldData, newRow]);
-      });
+      try{
+        await supplyChain.methods.products(i)
+        .call(function(err, product){
+          const newRow = {
+            product_id: product_id,
+            modelNumber: product[0],
+            partNumber: product[1],
+            serialNumber: product[2],
+            productOwner: product[3],
+            cost: product[4],
+            mfgTimeStamp: product[5],
+          };
+          // console.log(newRow);
+          setRowsData(oldData => [...oldData, newRow]);
+        });
+      }
+      catch(e){
+        console.log(e, 'set product array exception')
+      }
     }
   }
 
@@ -127,20 +162,31 @@ function App() {
 
   const addParticipant = async(event) => {
     event.preventDefault();
-
-    await supplyChain.methods.addParticipant(participant._name, participant._pass, participant._pAdd, participant._pType)
-    .send({ from : account }, (err, transactionHash) => {
-      console.log(err, transactionHash);
-    });
+    try{
+      await supplyChain.methods.addParticipant(participant._name, participant._pass, participant._pAdd, participant._pType)
+      .send({ from : account }, (err, transactionHash) => {
+        console.log(err, transactionHash);
+      });
+      setShowPopUp(true);
+    }
+    catch(e){
+      console.log(e, 'add participant exception')
+    }
+    
   }
 
   const getParticipant = async (event) => {
     event.preventDefault();
-
-    await supplyChain.methods.getParticipant(participant._userId)
-    .call({ from : account }, (err, transactionHash) => {
-      setParticipant(values => ({...values, _name: transactionHash[0], _pAdd: transactionHash[1], _pType: transactionHash[2]}))
-    })
+    try{
+      await supplyChain.methods.getParticipant(participant._userId)
+      .call({ from : account }, (err, transactionHash) => {
+        setParticipant(values => ({...values, _name: transactionHash[0], _pAdd: transactionHash[1], _pType: transactionHash[2]}))
+      })
+    }
+    catch(e){
+      console.log(e, 'get participant exception')
+    }
+    
   }
 
   const handleOwnerChange = (event) => {
@@ -151,36 +197,71 @@ function App() {
   const changeOwnership = async (event) => {
       event.preventDefault();
       console.log(account);
-      await supplyChain.methods.newOwner(owner._user1Id, owner._user2Id, owner._prodId)
-      .send({ from : account }, (err, transactionHash) => {
-          console.log(err, transactionHash);
-      });
+      try{
+        await supplyChain.methods.newOwner(owner._user1Id, owner._user2Id, owner._prodId)
+        .send({ from : account }, (err, transactionHash) => {
+            console.log(err, transactionHash);
+        });
+        setShowPopUp(true);
+      }
+      catch(e){
+        console.log(e, 'change ownership exception')
+      }
+      
   }
 
   const getOwnerships = async(ownership_Id) => {
-    await supplyChain.methods.getOwnership(ownership_Id)
-    .call({ from : account }, (err, res) => {
-      console.log(err, res);
-      setProvenance(oldData => [...oldData, res]);
-    })
+    try{
+      await supplyChain.methods.getOwnership(ownership_Id)
+      .call({ from : account }, (err, res) => {
+        console.log(err, res);
+        setProvenance(oldData => [...oldData, res]);
+      })
+    }
+    catch(e){
+      console.log(e, 'get ownership exception')
+    }
+    
   }
 
   const getProvenance = async(e) => {
     e.preventDefault();
     setProvenance([]);
-    await supplyChain.methods.getProvenance(e.target.value)
-    .call((err, result) => {
-      console.log(err, result);
-      let upperLimit = result.length
-      for(var i=0; i<upperLimit; i++){
-        let ownership_Id = parseInt(result[i]);
-        getOwnerships(ownership_Id);
-      }
-    });
+    try{
+      await supplyChain.methods.getProvenance(e.target.value)
+      .call((err, result) => {
+        console.log(err, result);
+        let upperLimit = result.length
+        for(var i=0; i<upperLimit; i++){
+          let ownership_Id = parseInt(result[i]);
+          getOwnerships(ownership_Id);
+        }
+      });
+    }
+    catch(e){
+      console.log(e, 'get provenance exception')
+    }
+    
+  }
+  const setPopupVisibility = () => {
+    setShowPopUp(!showPopUp);
   }
 
   return (
     <div className="App">
+
+      <Popup
+        open={showPopUp} 
+        timeout={100}
+        position="right center"
+        closeOnDocumentClick
+      >
+        <span className="close" onClick={setPopupVisibility}>&times;</span>
+        <span> Wow!!!
+          <br></br>
+          Transaction successful on the Polygon Network.
+        </span>
+      </Popup>
       <Router basename="/">
         <MyNavbar 
           isConnected={isConnected}
@@ -226,6 +307,7 @@ function App() {
             />
           }></Route>
           <Route path='/about'  element={<About />}></Route>
+          {/* <Route path='/popup'  element={<PopUp />}></Route> */}
         </Routes>
       </Router>
     </div>

@@ -11,9 +11,6 @@ export default function GetParticipant({participant, handleParticipantChange, ge
 
     return(
         <div>
-            {/* <button onClick={handleParticipantInputVisibility}>
-                <h3> Get Participant Details :  </h3>
-            </button> */}
             <h3> Get Participant Details :  </h3>
             <div className="form-box">
                 <form onSubmit={getParticipant}>

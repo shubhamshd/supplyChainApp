@@ -1,3 +1,5 @@
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import "../styles/Form.css";
 
 export default function ChangeProductOwnership ({ owner, handleOwnerChange, changeOwnership}){
@@ -37,7 +39,6 @@ export default function ChangeProductOwnership ({ owner, handleOwnerChange, chan
                         onChange={handleOwnerChange}
                     />
                     </label>
-
                     <button  
                         type="submit"> 
                         Submit 

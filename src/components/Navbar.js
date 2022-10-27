@@ -29,14 +29,6 @@ const MyNavbar = ({isConnected, connectWallet}) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavDropdown title="Participants" id="basic-nav-dropdown"
-              show={showParticipant}
-              onMouseEnter={showParticipantDropdown} 
-              onMouseLeave={hideParticipantDropdown}
-            >
-              <NavDropdown.Item as={Link} to="/getParticipant">Get Participant Details</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/addParticipant">Add New Participant</NavDropdown.Item>
-            </NavDropdown>
             <NavDropdown title="Products" id="basic-nav-dropdown"
               show={showProduct}
               onMouseEnter={showProductDropdown} 
@@ -45,6 +37,14 @@ const MyNavbar = ({isConnected, connectWallet}) => {
               <NavDropdown.Item as={Link} to="/products">Products</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/changeProductOwnership">Change Product Ownership</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/addProduct">Add New Product</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Participants" id="basic-nav-dropdown"
+              show={showParticipant}
+              onMouseEnter={showParticipantDropdown} 
+              onMouseLeave={hideParticipantDropdown}
+            >
+              <NavDropdown.Item as={Link} to="/getParticipant">Get Participant Details</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/addParticipant">Add New Participant</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
           </Nav>
