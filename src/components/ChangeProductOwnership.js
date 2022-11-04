@@ -5,6 +5,14 @@ import "../styles/Form.css";
 export default function ChangeProductOwnership ({ owner, handleOwnerChange, changeOwnership}){
     // console.log(rowsData);
 
+    const validate = () => {
+        if(owner._user1Id && owner._user2Id && owner._prodId){
+            return owner._user1Id.length && owner._user2Id.length && owner._prodId.length;  
+        }
+        else{
+            return 0;
+        }
+    };
     return(
         <div>
             <h3> Change Product Ownership </h3>
@@ -40,6 +48,7 @@ export default function ChangeProductOwnership ({ owner, handleOwnerChange, chan
                     />
                     </label>
                     <button  
+                        disabled={!validate()}
                         type="submit"> 
                         Submit 
                     </button>

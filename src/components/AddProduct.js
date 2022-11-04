@@ -3,6 +3,14 @@ import "../styles/Form.css";
 export default function Product ({ product, handleChange, addProduct}){
     // console.log(rowsData);
 
+    const validate = () => {
+        if(product._ownerId && product._modelNumber && product._partNumber && product._serialNumber && product._productCost){
+            return product._ownerId.length && product._modelNumber.length && product._partNumber.length && product._serialNumber.length && product._productCost.length;  
+        }
+        else{
+            return 0;
+        }
+    };
     return(
         <div>
             {/* Add New Product */}
@@ -61,6 +69,7 @@ export default function Product ({ product, handleChange, addProduct}){
                     />
                     </label>
                     <button  
+                    disabled={!validate()}
                     type="submit"> 
                     Submit 
                     </button>

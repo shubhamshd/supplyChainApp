@@ -1,6 +1,15 @@
 import "../styles/Form.css";
 
 export default function AddParticipant({participant, handleParticipantChange, addParticipant}){
+
+    const validate = () => {
+        if(participant._name && participant._pass && participant._pAdd && participant._pType){
+            return participant._name.length && participant._pass.length && participant._pAdd.length && participant._pType.length;  
+        }
+        else{
+            return 0;
+        }
+    };
     return(
         <div>
             {/* <button onClick={handleAddParticipantVisibility}>
@@ -50,7 +59,7 @@ export default function AddParticipant({participant, handleParticipantChange, ad
                             <option value="Consumer">Consumer</option>
                         </select>
                     </label>
-                    <button type = "submit" id= "submitBtn" className = "submitBtn"> Submit</button>
+                    <button type = "submit" id= "submitBtn" className = "submitBtn" disabled={!validate()}> Submit</button>
                 </form>
 
             </div>
