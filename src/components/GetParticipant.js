@@ -8,6 +8,14 @@ export default function GetParticipant({participant, handleParticipantChange, ge
     const handleParticipantTableVisibility = () => {
         setShowHideParticipantTable(true);
     }
+    const validate = () => {
+        if(participant._userId){
+            return participant._userId.length;  
+        }
+        else{
+            return 0;
+        }
+    };
 
     return(
         <div>
@@ -24,7 +32,8 @@ export default function GetParticipant({participant, handleParticipantChange, ge
                     />
                     </label>
                     <button onClick={handleParticipantTableVisibility}
-                        type="submit"> 
+                        type="submit"
+                        disabled={!validate()}> 
                         Get 
                     </button>
                 </form>
